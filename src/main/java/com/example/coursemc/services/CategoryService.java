@@ -2,7 +2,11 @@ package com.example.coursemc.services;
 
 import com.example.coursemc.domain.Category;
 import com.example.coursemc.repositories.CategoryRepository;
+
+import com.example.coursemc.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -15,7 +19,10 @@ public class CategoryService {
     }
 
     public Category search (Integer id) {
-        return repository.findById(id).orElse(null);
+        Optional<Category> category = repository.findById(id);
+        return category.orElseThrow(() -> new ObjectNotFoundException(
+                "Object not found ID: "+id+", type: "+ Category.class.getName()
+        ));
     }
 
 
