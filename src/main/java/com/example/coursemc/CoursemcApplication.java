@@ -1,13 +1,8 @@
 package com.example.coursemc;
 
-import com.example.coursemc.domain.Category;
-import com.example.coursemc.domain.City;
-import com.example.coursemc.domain.Product;
-import com.example.coursemc.domain.State;
-import com.example.coursemc.repositories.CategoryRepository;
-import com.example.coursemc.repositories.CityRepository;
-import com.example.coursemc.repositories.ProductRepository;
-import com.example.coursemc.repositories.StateRepository;
+import com.example.coursemc.domain.*;
+import com.example.coursemc.domain.enums.ClientType;
+import com.example.coursemc.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,16 +16,23 @@ public class CoursemcApplication implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final StateRepository stateRepository;
     private final CityRepository cityRepository;
+    private final AddressRepository addressRepository;
+    private final ClientRepository clientRepository;
 
 
     public CoursemcApplication (CategoryRepository categoryRepository,
                                 ProductRepository productRepository,
                                 StateRepository stateRepository,
-                                CityRepository cityRepository) {
+                                CityRepository cityRepository,
+                                AddressRepository addressRepository,
+                                ClientRepository clientRepository
+    ) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.stateRepository = stateRepository;
         this.cityRepository = cityRepository;
+        this.addressRepository = addressRepository;
+        this.clientRepository = clientRepository;
     }
 
     public static void main(String[] args) {
@@ -69,6 +71,17 @@ public class CoursemcApplication implements CommandLineRunner {
 
         stateRepository.saveAll(Arrays.asList(s1,s2));
         cityRepository.saveAll(Arrays.asList(c1,c2,c3));
+
+        Client cl1 = new Client(null, "Filipe Melo", "filipe@email.com", "111111111", ClientType.PESSOAFISICA);
+        cl1.getCellphones().addAll(Arrays.asList("12312312","34234342"));
+
+        Address a1 = new Address(null, "Rua teste", "213", "Complemento", "Bairro", "23409-500", cl1, c1);
+        Address a2 = new Address(null, "Rua teste 2", "345", "Complemento 2", "Bairro 2", "23456-500", cl1, c2);
+
+        cl1.getAddresses().addAll(Arrays.asList(a1, a2));
+
+        clientRepository.saveAll(Arrays.asList(cl1));
+        addressRepository.saveAll(Arrays.asList(a1, a2));
 
     }
 }
