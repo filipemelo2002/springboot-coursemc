@@ -1,6 +1,8 @@
 package com.example.coursemc.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,6 +19,7 @@ public class Address implements Serializable {
     private String district;
     private String zipcode;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
