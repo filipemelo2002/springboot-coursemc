@@ -2,14 +2,23 @@ package com.example.coursemc.domain;
 
 import com.example.coursemc.domain.enums.PaymentState;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
 public class Payment implements Serializable {
 
+    @Id
     private Integer id;
     private PaymentState state;
 
+    @OneToOne
+    @JoinColumn(name="order_id")
+    @MapsId
     private Order order;
 
     public Payment() {

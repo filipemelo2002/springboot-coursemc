@@ -1,14 +1,19 @@
 package com.example.coursemc.domain;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
 public class Order implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Date timestamp;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
     private Payment payment;
 
     private Client client;
