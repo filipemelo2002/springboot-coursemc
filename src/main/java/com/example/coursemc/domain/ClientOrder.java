@@ -6,28 +6,31 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Order implements Serializable {
+public class ClientOrder implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Date timestamp;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "clientOrder")
     private Payment payment;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id")
     private Client client;
 
+    @ManyToOne
+    @JoinColumn(name = "delivery_address_id")
     private Address deliveryAddress;
 
-    public Order() {
+    public ClientOrder() {
 
     }
 
-    public Order(Integer id, Date timestamp, Payment payment, Client client, Address deliveryAddress) {
+    public ClientOrder(Integer id, Date timestamp, Client client, Address deliveryAddress) {
         this.id = id;
         this.timestamp = timestamp;
-        this.payment = payment;
         this.client = client;
         this.deliveryAddress = deliveryAddress;
     }
@@ -76,8 +79,8 @@ public class Order implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return id.equals(order.id);
+        ClientOrder clientOrder = (ClientOrder) o;
+        return id.equals(clientOrder.id);
     }
 
     @Override

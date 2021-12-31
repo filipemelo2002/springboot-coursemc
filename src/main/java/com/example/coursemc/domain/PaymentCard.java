@@ -2,6 +2,9 @@ package com.example.coursemc.domain;
 
 import com.example.coursemc.domain.enums.PaymentState;
 
+import javax.persistence.Entity;
+
+@Entity
 public class PaymentCard extends Payment{
     private Integer installmentsCount;
 
@@ -13,8 +16,8 @@ public class PaymentCard extends Payment{
         this.installmentsCount = installmentsCount;
     }
 
-    public PaymentCard(Integer id, PaymentState state, Order order, Integer installmentsCount) {
-        super(id, state, order);
+    public PaymentCard(Integer id, PaymentState state, ClientOrder clientOrder, Integer installmentsCount) {
+        super(id, state, clientOrder);
         this.installmentsCount = installmentsCount;
     }
 

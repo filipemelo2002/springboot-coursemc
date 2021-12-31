@@ -2,33 +2,31 @@ package com.example.coursemc.domain;
 
 import com.example.coursemc.domain.enums.PaymentState;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Payment implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Payment implements Serializable {
 
     @Id
     private Integer id;
-    private PaymentState state;
+    private Integer state;
 
     @OneToOne
     @JoinColumn(name="order_id")
     @MapsId
-    private Order order;
+    private ClientOrder clientOrder;
 
     public Payment() {
 
     }
 
-    public Payment(Integer id, PaymentState state, Order order) {
+    public Payment(Integer id, PaymentState state, ClientOrder clientOrder) {
         this.id = id;
-        this.state = state;
-        this.order = order;
+        this.state = state.getCode();
+        this.clientOrder = clientOrder;
     }
 
     public Integer getId() {
@@ -40,19 +38,19 @@ public class Payment implements Serializable {
     }
 
     public PaymentState getState() {
-        return state;
+        return PaymentState.toEnum(this.state);
     }
 
     public void setState(PaymentState state) {
-        this.state = state;
+        this.state = state.getCode();
     }
 
-    public Order getOrder() {
-        return order;
+    public ClientOrder getOrder() {
+        return clientOrder;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrder(ClientOrder clientOrder) {
+        this.clientOrder = clientOrder;
     }
 
     @Override

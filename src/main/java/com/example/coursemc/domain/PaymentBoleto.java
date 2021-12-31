@@ -2,8 +2,10 @@ package com.example.coursemc.domain;
 
 import com.example.coursemc.domain.enums.PaymentState;
 
+import javax.persistence.Entity;
 import java.util.Date;
 
+@Entity
 public class PaymentBoleto extends Payment{
     private Date paymentEnd;
     private Date paymentDate;
@@ -17,8 +19,8 @@ public class PaymentBoleto extends Payment{
         this.paymentDate = paymentDate;
     }
 
-    public PaymentBoleto(Integer id, PaymentState state, Order order, Date paymentEnd, Date paymentDate) {
-        super(id, state, order);
+    public PaymentBoleto(Integer id, PaymentState state, ClientOrder clientOrder, Date paymentEnd, Date paymentDate) {
+        super(id, state, clientOrder);
         this.paymentEnd = paymentEnd;
         this.paymentDate = paymentDate;
     }

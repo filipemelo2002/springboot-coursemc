@@ -2,11 +2,13 @@ package com.example.coursemc;
 
 import com.example.coursemc.domain.*;
 import com.example.coursemc.domain.enums.ClientType;
+import com.example.coursemc.domain.enums.PaymentState;
 import com.example.coursemc.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -18,6 +20,8 @@ public class CoursemcApplication implements CommandLineRunner {
     private final CityRepository cityRepository;
     private final AddressRepository addressRepository;
     private final ClientRepository clientRepository;
+    private final ClientOrderRepository clientOrderRepository;
+    private final PaymentRepository paymentRepository;
 
 
     public CoursemcApplication (CategoryRepository categoryRepository,
@@ -25,7 +29,9 @@ public class CoursemcApplication implements CommandLineRunner {
                                 StateRepository stateRepository,
                                 CityRepository cityRepository,
                                 AddressRepository addressRepository,
-                                ClientRepository clientRepository
+                                ClientRepository clientRepository,
+                                ClientOrderRepository clientOrderRepository,
+                                PaymentRepository paymentRepository
     ) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
@@ -33,6 +39,8 @@ public class CoursemcApplication implements CommandLineRunner {
         this.cityRepository = cityRepository;
         this.addressRepository = addressRepository;
         this.clientRepository = clientRepository;
+        this.clientOrderRepository = clientOrderRepository;
+        this.paymentRepository = paymentRepository;
     }
 
     public static void main(String[] args) {
@@ -82,6 +90,23 @@ public class CoursemcApplication implements CommandLineRunner {
 
         clientRepository.saveAll(Arrays.asList(cl1));
         addressRepository.saveAll(Arrays.asList(a1, a2));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        ClientOrder ped1 = new ClientOrder(null, sdf.parse("31/12/2021 15:09"), cl1, a1);
+        ClientOrder ped2 = new ClientOrder(null, sdf.parse("10/10/2021 15:09"), cl1, a2);
+
+        Payment pag1 = new PaymentCard(null, PaymentState.QUITADO, ped1, 6);
+        ped1.setPayment(pag1);
+
+        Payment pag2 = new PaymentBoleto(null, PaymentState.PENDENTE, ped2, sdf.parse("20/10/2021 00:00"), null);
+        ped2.setPayment(pag2);
+
+        cl1.getOrders().addAll(Arrays.asList(ped1, ped2));
+
+        clientOrderRepository.saveAll(Arrays.asList(ped1, ped2));
+
+        paymentRepository.saveAll(Arrays.asList(pag1, pag2));
 
     }
 }
