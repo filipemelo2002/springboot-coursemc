@@ -1,6 +1,6 @@
 package com.example.coursemc.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,7 +17,7 @@ public class Category implements Serializable {
 
     private String name;
 
-    @JsonManagedReference
+    
     @ManyToMany(mappedBy = "categories")
     private List<Product> products = new ArrayList<>();
 
