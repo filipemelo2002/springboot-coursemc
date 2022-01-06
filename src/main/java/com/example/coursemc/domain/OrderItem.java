@@ -1,5 +1,7 @@
 package com.example.coursemc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
@@ -8,6 +10,7 @@ import java.util.Objects;
 @Entity
 public class OrderItem implements Serializable {
 
+    @JsonIgnore
     @EmbeddedId
     private ClientOrderItemPK id = new ClientOrderItemPK();
 
@@ -28,11 +31,12 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public ClientOrder getOrder() {
         return id.getOrder();
     }
 
-    public Product geProduct() {
+    public Product getProduct() {
         return id.getProduct();
     }
 

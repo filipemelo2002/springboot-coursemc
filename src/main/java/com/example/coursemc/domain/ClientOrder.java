@@ -1,5 +1,8 @@
 package com.example.coursemc.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,11 +16,15 @@ public class ClientOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date timestamp;
 
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "clientOrder")
     private Payment payment;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
@@ -92,8 +99,8 @@ public class ClientOrder implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ClientOrder clientOrder = (ClientOrder) o;
-        return id.equals(clientOrder.id);
+        ClientOrder that = (ClientOrder) o;
+        return id.equals(that.id);
     }
 
     @Override

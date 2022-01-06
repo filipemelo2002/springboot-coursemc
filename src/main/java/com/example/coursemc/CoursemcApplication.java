@@ -104,7 +104,7 @@ public class CoursemcApplication implements CommandLineRunner {
         Payment pag2 = new PaymentBoleto(null, PaymentState.PENDENTE, ped2, sdf.parse("20/10/2021 00:00"), null);
         ped2.setPayment(pag2);
 
-        cl1.getOrders().addAll(Arrays.asList(ped1, ped2));
+        cl1.getClientOrders().addAll(Arrays.asList(ped1, ped2));
 
         clientOrderRepository.saveAll(Arrays.asList(ped1, ped2));
 

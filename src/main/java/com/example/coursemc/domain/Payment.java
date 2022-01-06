@@ -1,6 +1,7 @@
 package com.example.coursemc.domain;
 
 import com.example.coursemc.domain.enums.PaymentState;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer state;
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name="order_id")
     @MapsId
@@ -45,11 +47,11 @@ public abstract class Payment implements Serializable {
         this.state = state.getCode();
     }
 
-    public ClientOrder getOrder() {
+    public ClientOrder getClientOrder() {
         return clientOrder;
     }
 
-    public void setOrder(ClientOrder clientOrder) {
+    public void setClientOrder(ClientOrder clientOrder) {
         this.clientOrder = clientOrder;
     }
 
